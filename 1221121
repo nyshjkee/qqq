@@ -1,0 +1,91 @@
+#include <iostream>
+struct stack
+{
+  int val;
+	stack *next; 
+	stack *prev;
+};
+void add_el(int value, stack **El);
+void print_stack(stack *El);
+void delete_stack(stack *El);
+
+
+void main()
+{
+	stack *El;
+	int size;
+	int tmpVal;
+
+	El = new stack;
+	El->prev = NULL;
+
+	printf("Input number of elements: ");	/// size of stack
+	scanf("%d", &size);
+	printf("\n\n...Start of creating stack...");
+		while (size--)							/// create elements of stack
+		{
+			tmpVal = rand()%1000;
+			add_el(tmpVal, &El);				/// add element to stack
+		}
+     printf("\n...Stack was created...\n");
+       
+	print_stack(El);						/// print stack
+	delete_stack(El);						/// delete stack
+
+	getchar();
+	getchar();
+}
+
+
+/*! @fn		void add_el(int value, stack **El)
+    @brief	Add new element to stack.
+    
+	@param value	Value of element.
+    @param **El		Pointer to pointer first element of stack.
+	@return			void
+*/
+void add_el(int value, stack **El)
+{
+	stack *temp = new stack;
+	temp->val = value;
+	temp->next = (*El)->prev;
+	(*El)->prev = temp;
+	printf ("\n...Value \'%d\' was added", value);
+}
+
+
+/*! @fn		void print_stack(stack *El)
+    @brief	Print stack.
+    
+    @param *El		Pointer to first element of stack.
+	@return			void
+*/
+void print_stack(stack *El)
+{
+    stack *temp = new stack;
+    temp = El->prev;
+	printf("\n\nStack:");
+		while (temp)
+		{
+			printf("|%d ", temp->val);
+			temp = temp->next;
+		}
+}
+
+
+/*! @fn		void delete_stack(stack *El)
+    @brief	Delete stack.
+    
+    @param *El		Pointer to first element of stack.
+	@return			void
+*/
+void delete_stack(stack *El)
+{
+	printf("\n\n...Stack was destroied...\n");
+		while (El->prev)
+		{
+			stack *temp=El->prev->next;
+			delete El->prev;
+			El->prev=temp;
+		}
+}
